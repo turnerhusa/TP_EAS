@@ -71,24 +71,24 @@ def drawLine(curr_x, curr_y, x, y):
 
   while x != curr_x or y != curr_y:
 
-    print("while loop iteration - ")
+    #print("while loop iteration - ")
 
     if x == curr_x:
-      print("x done, just moving y\n")
+      #print("x done, just moving y\n")
       instructions.append(V)
       curr_y += inc_y
     elif y == curr_y:
-      print("y done, just moving x\n")
+      #print("y done, just moving x\n")
       instructions.append(H)
       curr_x += inc_x
     else:
       if p < 0:
-        print("door #1\n")
+        #print("door #1\n")
         instructions.append(H)
         curr_x += inc_x
         p = p + 2 * dy
       else:
-        print("door #2\n")
+        #print("door #2\n")
         instructions.append(H)
         curr_x += inc_x
         instructions.append(V)

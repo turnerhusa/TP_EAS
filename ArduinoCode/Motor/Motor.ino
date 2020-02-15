@@ -5,15 +5,15 @@
 #include <limits.h> 
 
 // for use in curr coords
-#define STEP_WAIT 100
+#define STEP_WAIT 10
 
 struct motor { int pin1, pin2, pin3, pin4; } typedef motor; 
 struct motor * UD;
 struct motor * LR;		// vertical and horizontal motor controllers
 
 int step_number = 0;
-int REVERSE = 0;		// for use with U/D/L/R to make things easier
-int FORWARD	= 1;
+int REVERSE = 1;		// for use with U/D/L/R to make things easier
+int FORWARD	= 0;
 
 int incoming[2];
 
@@ -64,8 +64,7 @@ void enqueue(struct Queue* queue, int item)
 		return; 
 	queue->rear = (queue->rear + 1)%queue->capacity; 
 	queue->array[queue->rear] = item; 
-	queue->size = queue->size + 1; 
-	printf("%d enqueued to queue\n", item); 
+	queue->size = queue->size + 1;
 } 
   
 // Function to remove an item from queue.  
@@ -131,32 +130,46 @@ void setup() {
 
 }
  
-void loop() {
+char receivedChar;
+boolean newData = false;
 
-	while(Serial.available() >= 1){
-		if (!isEmpty(instructionQueue)){
-			int nextInstruction = dequeue(instructionQueue);
-			switch(nextInstruction){
-				case 0:
-					U();
-					break;
-				case 1:
-					D();
-					break;
-				case 2:
-					L();
-					break;
-				case 3:
-					R();
-					break;
-			}
-		}
-		for (int i = 0; i < 1; i++){
-			incoming[i] = Serial.read();
-		}
-		if (!isFull(instructionQueue))
-			enqueue(instructionQueue, incoming[0]);
+void recvOneChar() {
+	if (Serial.available() > 0) {
+		receivedChar = Serial.read();
+		newData = true;
 	}
+}
+
+void showNewData() {
+	if (newData == true) {
+		Serial.print("This just in ... ");
+		Serial.println(receivedChar);
+		newData = false;
+
+		switch(receivedChar){
+			case '0':
+				D();D();D();D();D();
+				break;
+			case '1':
+				U();U();U();U();U();
+				break;
+			case '2':
+				L();L();L();L();L();
+				break;
+			case '3':
+				R();R();R();R();R();
+				break;
+		}
+		
+	}
+}
+
+void loop() {
+	
+	recvOneChar();
+	showNewData();
+	
+		
 }
 
 // rotates motor by "one step"
@@ -234,22 +247,22 @@ void OneStep(motor * m, bool dir) {
 
 // Direction Functions //
 void U() {
-	OneStep(UD, FORWARD);
+	OneStep(UD, 1);
 	delay(STEP_WAIT);
 }
 
 void D() {
-	OneStep(UD, REVERSE);
+	OneStep(UD, 0);
 	delay(STEP_WAIT);
 }
 
 void L() {
-	OneStep(LR, REVERSE);
+	OneStep(LR, 0);
 	delay(STEP_WAIT);
 }
 
 void R() {
-	OneStep(LR, FORWARD);
+	OneStep(LR, 1);
 	delay(STEP_WAIT);
 }
 ////////////////
