@@ -3,6 +3,11 @@
 #define STEPPER_PIN_3 11
 #define STEPPER_PIN_4 12
 
+#define STEPPER_PIN_1_1 6
+#define STEPPER_PIN_2_1 5
+#define STEPPER_PIN_3_1 4
+#define STEPPER_PIN_4_1 3
+
 // For one step code
 int step_number = 0;
 
@@ -21,12 +26,12 @@ void setup() {
 }
 
 void loop() {
-	while(Serial.available() >= 2){
+	while(Serial.available() >= 3){
 
-    for (int i = 0; i < 2; i++){
+    for (int i = 0; i < 3; i++){
       incoming[i] = Serial.read();
     }
-    multiStep(incoming[0],incoming[1]);
+    multiStep(incoming[0],incoming[1], incoming[2]);
 	}
 }
 

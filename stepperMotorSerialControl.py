@@ -2,23 +2,24 @@ import serial
 import time
 import struct
 
+#team written module
+import LineAlg as lineAlg
+
+
+currX = 0;
+currY = 0;
+
 serialData = serial.Serial('/dev/tty.usbmodem1421', baudrate=9600)
 time.sleep(2) # wait for intialize
 
-serialData.write(struct.pack(">BB",0, 100));
-time.sleep(2);
 
-serialData.write(struct.pack(">BB",1,255));
-time.sleep(2);
+drawLine(	50,	0);
+drawLine(	50,	50);
+drawLine(	0,	50);
+drawLine(	0,	0);
 
-serialData.write(struct.pack(">BB",0, 100));
-time.sleep(2);
 
-serialData.write(struct.pack(">BB",1,255));
-time.sleep(2);
-
-serialData.write(struct.pack(">BB",0, 100));
-time.sleep(2);
-
-serialData.write(struct.pack(">BB",1,255));
-time.sleep(2);
+def drawLine(nextX, nextY):
+	instructions = lineAlg.drawLine(currX, currY, nextX, nextY)
+	for instruct in instructions:
+		serialData.write(struct.pack(">B",instruct));
