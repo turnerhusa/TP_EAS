@@ -74,11 +74,11 @@ def drawLine(curr_x, curr_y, x, y):
     print("while loop iteration - ")
 
     if x == curr_x:
-      print("y done, just moving x\n")
+      print("x done, just moving y\n")
       instructions.append(V)
       curr_y += inc_y
     elif y == curr_y:
-      print("x done, just moving y\n")
+      print("y done, just moving x\n")
       instructions.append(H)
       curr_x += inc_x
     else:
