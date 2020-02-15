@@ -12,28 +12,39 @@ int in2Pin = 9;
 
 int switchPin = 7;
 int potPin = 0;
-boolean REVERSE = TRUE, FORWARD = FALSE;
+boolean REVERSE = FALSE, FORWARD = TRUE;
 struct motor * UD, LR;
-int SPEED = 255;
 int curr_coords [] = {0,0}
 int X = 0, Y = 1;
 
 struct motor {
 
-	int enable;
-	int in1;
-	int in2;
+	int pin1;
+	int pin2;
+	int pin3;
+	int pin4;
 
 } typedef motor;
 
 void setup() {
 
-	pinMode(UD->in1, OUTPUT);
-	pinMode(UD->in2, OUTPUT);
-	pinMode(UD->enable, OUTPUT);
-	pinMode(LR->in1, OUTPUT);
-	pinMode(LR->in2, OUTPUT);
-	pinMode(LR->enable, OUTPUT);
+	pinMode(UD->pin1, OUTPUT);
+	pinMode(UD->pin2, OUTPUT);
+	pinMode(UD->pin3, OUTPUT);
+	pinMode(UD->pin4, OUTPUT);
+	pinMode(LR->pin1, OUTPUT);
+	pinMode(LR->pin2, OUTPUT);
+	pinMode(LR->pin3, OUTPUT);
+	pinMode(LR->pin4, OUTPUT);
+	UD->pin1 = 12;
+	UD->pin1 = 11; 
+	UD->pin1 = 10;
+	UD->pin1 = 9;
+	LR->pin1 = 6;
+	LR->pin1 = 5;
+	LR->pin1 = 4;
+	LR->pin1 = 3;
+
 
  	Serial.begin(9600);
 
@@ -92,37 +103,95 @@ void drawLineFromCurrCoords(int x, int y) {
 
 // directions
 void U() {
-  setMotor(UD, SPEED, FORWARD);
-  stopMotor(UD);
+  OneStep(UD, FORWARD);
   curr_coords[Y]++;
 }
 
 void D() {
-  setMotor(UD, SPEED, REVERSE);
-  stopMotor(UD);
+  OneStep(UD, REVERSE);
   curr_coords[Y]--;
 }
 
 void L() {
-  setMotor(LR, SPEED, FORWARD);
-  stopMotor(LR);
+  OneStep(LR, REVERSE);
   curr_coords[X]--;
 }
 
 void R() {
-  setMotor(LR, SPEED, REVERSE);
-  stopMotor(LR);
+  OneStep(LR, FORWARD);
   curr_coords[X]++;
 }
 //
 
-//
-void stopMotor(motor * m) {
-  setMotor(m, 0, TRUE);
-}
+// rotates motor by "one step"
+void OneStep(motor * m, bool dir) {
+  
+  if (dir) {
+
+    switch(step_number){
+
+      case 0:
+      digitalWrite(m->pin1, HIGH);
+      digitalWrite(m->pin2, LOW);
+      digitalWrite(m->pin3, LOW);
+      digitalWrite(m->pin4, LOW);
+      break;
+      case 1:
+      digitalWrite(m->pin1, LOW);
+      digitalWrite(m->pin2, HIGH);
+      digitalWrite(m->pin3, LOW);
+      digitalWrite(m->pin4, LOW);
+      break;
+      case 2:
+      digitalWrite(m->pin1, LOW);
+      digitalWrite(m->pin2, LOW);
+      digitalWrite(m->pin3, HIGH);
+      digitalWrite(m->pin4, LOW);
+      break;
+      case 3:
+      digitalWrite(m->pin1, LOW);
+      digitalWrite(m->pin2, LOW);
+      digitalWrite(m->pin3, LOW);
+      digitalWrite(m->pin4, HIGH);
+      break;
+    } 
+
+  } else {
+
+    switch(step_number) {
+
+      case 0:
+      digitalWrite(m->pin1, LOW);
+      digitalWrite(m->pin2, LOW);
+      digitalWrite(m->pin3, LOW);
+      digitalWrite(m->pin4, HIGH);
+      break;
+      case 1:
+      digitalWrite(m->pin1, LOW);
+      digitalWrite(m->pin2, LOW);
+      digitalWrite(m->pin3, HIGH);
+      digitalWrite(m->pin4, LOW);
+      break;
+      case 2:
+      digitalWrite(m->pin1, LOW);
+      digitalWrite(m->pin2, HIGH);
+      digitalWrite(m->pin3, LOW);
+      digitalWrite(m->pin4, LOW);
+      break;
+      case 3:
+      digitalWrite(m->pin1, HIGH);
+      digitalWrite(m->pin2, LOW);
+      digitalWrite(m->pin3, LOW);
+      digitalWrite(m->pin4, LOW);
  
-void setMotor(motor * m, int speed, boolean reverse) {
-  analogWrite(enablePin, speed);
-  digitalWrite(m->in1, ! reverse);
-  digitalWrite(m->in2, reverse);
+    } 
+
+  }
+
+  step_number++;
+
+  if (step_number > 3) {
+    step_number = 0;
+  }
+
 }
