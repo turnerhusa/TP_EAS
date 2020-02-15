@@ -1,7 +1,7 @@
 import serial
 import time
 
-aData = serial.Serial('/dev/tty.usbmodem14201', baudrate=9600)
+aData = serial.Serial('/dev/tty.usbmodem1421', baudrate=9600)
 
 #aData = serial.Serial('/dev/tty.usbmodem14101', baudrate=9600)
 
