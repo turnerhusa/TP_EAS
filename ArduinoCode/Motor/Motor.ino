@@ -5,7 +5,7 @@
 #include <limits.h> 
 
 // for use in curr coords
-#define STEP_WAIT 10
+#define STEP_WAIT 100
 
 struct motor { int pin1, pin2, pin3, pin4; } typedef motor; 
 struct motor * UD;
