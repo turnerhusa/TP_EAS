@@ -2,8 +2,12 @@
 
 import skimage
 import skimage.feature
-import skimage.viewer
+import skimage.io
+# import skimage.viewer
 import sys
+import PIL
+from PIL import Image
+import cv2
 
 #filename == .png name
 #sigma == the value of the Gaussian smoothing
@@ -14,8 +18,8 @@ high_threshold = float(sys.argv[4])
 
 #load and display original image as grayscale
 image = skimage.io.imread(fname=filename, as_gray=True)
-viewer = skimage.viewer(image=image)
-viewer.show()
+# viewer = skimage.viewer(image=image)
+# viewer.show()
 
 #apply Canny edge detection
 edges = skimage.feature.canny(
@@ -25,6 +29,10 @@ edges = skimage.feature.canny(
     high_threshold=high_threshold,
 )
 
+print(edges)
+
+cv2.imwrite(edges, 'test-output.jpg', params=(cv2.IMWRITE_JPEG_QUALITY, 0));
+
 #display edges
-viewer = skimage.viewer.ImageViewer(edges)
-viewer.show()
+# viewer = skimage.viewer.ImageViewer(edges)
+# viewer.show()
