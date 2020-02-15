@@ -1,3 +1,8 @@
+
+/////////////////////////////////
+// USE MOTOR.INO, NOT THIS ONE //
+/////////////////////////////////
+
 #define STEPPER_PIN_1 9
 #define STEPPER_PIN_2 10
 #define STEPPER_PIN_3 11
