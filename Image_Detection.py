@@ -1,9 +1,11 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import sys
-
+import itertools
 import skimage.io
 import skimage.feature
+from queue import LifoQueue 
+from skimage import measure
 # simple filters for comparison
 from skimage.filters import roberts, sobel, sobel_h, sobel_v, scharr, \
     scharr_h, scharr_v, prewitt, prewitt_v, prewitt_h, farid_v, farid_h
@@ -31,23 +33,42 @@ edges = skimage.feature.canny(
     high_threshold=high_threshold,
 )
 
-shapes = EdgeProcessor.processEdges(edges)
-print(shapes)
+#shapes = EdgeProcessor.processEdges(edges)
+#print(shapes)
 
-#displaying data
-fig, ax = plt.subplots(ncols=2, sharex=True, sharey=True,
-                       figsize=(8, 4))
+contours = measure.find_contours(edges, 0.8)
 
-ax[0].imshow(edges, cmap=plt.cm.gray)
-ax[0].set_title('Canny')
 
-ax[1].imshow(edge_sobel, cmap=plt.cm.gray)
-ax[1].set_title('Sobel Edge Detection')
+newContour_stack = LifoQueue()
+numOfContours = len(contours)
+for n in range(0,numOfContours):
+	if (n > 0):
+		#insert connection line
+		#print(contours[n-1][-1][0],contours[n-1][-1][1])
+		#print(n)
+		newContour_stack.put(( [contours[n-1][-1][0], contours[n-1][-1][1]], [contours[n][0][0], contours[n][0][1]] ))
+	else:
+		pass
+		#insert start line
+		print("Insert starting line")
+		newContour_stack.put(([0,0], [contours[n][0][0], contours[n][0][1]]))
 
-for a in ax:
-    a.axis('off')
+reverseIndex = numOfContours-1;
+while (not newContour_stack.empty()):
+	newContourLine = newContour_stack.get();
+	contourInsertPass = [newContourLine[0], newContourLine[1]]
+	contours.insert(reverseIndex, np.array(contourInsertPass))
+	reverseIndex -= 1;
 
-plt.tight_layout()
+for n, contour in enumerate(contours):
+	#print(contour)
+	#print(contour);
+	plt.plot(contour[:, 1], contour[:, 0], linewidth=2)
+
+# for a in ax:
+#     a.axis('off')
+
+# plt.tight_layout()
 plt.show()
 
 #display edges
