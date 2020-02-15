@@ -15,11 +15,15 @@ from skimage.filters import roberts, sobel, sobel_h, sobel_v, scharr, \
 #project files
 import Image_Process_Edges as EdgeProcessor
 import stepperMotorSerialControl as serialControl
+import resizeImage as resizer
 
 filename = sys.argv[1]
 sigma = float(sys.argv[2])
 low_threshold = float(sys.argv[3])
 high_threshold = float(sys.argv[4])
+
+resizer.resize(filename)
+filename = 'resized-'+filename
 
 #load and display original image as grayscale
 image = skimage.io.imread(fname=filename, as_gray=True)
