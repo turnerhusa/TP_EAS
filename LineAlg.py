@@ -47,20 +47,23 @@ inc_y = 0
 
 
 def drawLine(curr_x, curr_y, x, y):
+
+  instructions = []
+
   dx = x - curr_x
   dy = y - curr_y
 
-  if dx >= 0:
+  if dx >= 0: # moving right, incrementing x
     H = R
     inc_x = 1
-  else:
+  else: # moving left, decrementing x
     H = L
     inc_x = -1
 
-  if dy >= 0:
+  if dy >= 0: # movig up, incrementing y
     V = U
     inc_y = 1
-  else:
+  else: # moving down, decrementing y+
     V = D
     inc_y = -1
 
@@ -73,26 +76,34 @@ def drawLine(curr_x, curr_y, x, y):
 
     #print("while loop iteration - ")
 
+    # print(str(curr_x) + "," + str(curr_y))
+
     if x == curr_x:
       #print("x done, just moving y\n")
       instructions.append(V)
       curr_y += inc_y
+
     elif y == curr_y:
       #print("y done, just moving x\n")
       instructions.append(H)
       curr_x += inc_x
+
     else:
       if p < 0:
         #print("door #1\n")
         instructions.append(H)
         curr_x += inc_x
+
         p = p + 2 * dy
+
       else:
         #print("door #2\n")
         instructions.append(H)
         curr_x += inc_x
+
         instructions.append(V)
         curr_y += inc_y
+
         p = p + 2 * (dy - dx)
 
 

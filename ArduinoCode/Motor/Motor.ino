@@ -7,7 +7,7 @@
 // for use in curr coords
 #define STEP_WAIT 10
 
-struct motor { int pin1, pin2, pin3, pin4; } typedef motor; 
+struct motor { int pin1, pin2, pin3, pin4, step_number = 0; } typedef motor; 
 struct motor * UD;
 struct motor * LR;		// vertical and horizontal motor controllers
 
@@ -148,16 +148,16 @@ void showNewData() {
 
 		switch(receivedChar){
 			case '0':
-				D();D();D();D();D();
+				D();
 				break;
 			case '1':
-				U();U();U();U();U();
+				U();
 				break;
 			case '2':
-				L();L();L();L();L();
+				L();
 				break;
 			case '3':
-				R();R();R();R();R();
+				R();
 				break;
 		}
 		
@@ -177,7 +177,7 @@ void OneStep(motor * m, bool dir) {
 
 	if (dir) {
 
-		switch(step_number){
+		switch(m->step_number){
 
 			case 0:
 				digitalWrite(m->pin1, HIGH);
@@ -207,7 +207,7 @@ void OneStep(motor * m, bool dir) {
 
 	} else {
 
-		switch(step_number) {
+		switch(m->step_number) {
 
 			case 0:
 				digitalWrite(m->pin1, LOW);
@@ -237,32 +237,45 @@ void OneStep(motor * m, bool dir) {
 
 	}
 
-	step_number++;
+	m->step_number = (m->step_number + 1) % 4;
 
-	if (step_number > 3) {
-		step_number = 0;
-	}
+	// if (step_number > 3) {
+	// 	step_number = 0;
+	// }
 
 }
 
+#define ONE_TURN_AMOUNT 4
 // Direction Functions //
 void U() {
-	OneStep(UD, 1);
-	delay(STEP_WAIT);
+	int i;
+	for (i = 0; i < ONE_TURN_AMOUNT; i++) {
+		OneStep(UD, 1);
+		delay(STEP_WAIT);
+	}
 }
 
 void D() {
-	OneStep(UD, 0);
-	delay(STEP_WAIT);
+	int i;
+	for (i = 0; i < ONE_TURN_AMOUNT; i++) {
+		OneStep(UD, 0);
+		delay(STEP_WAIT);
+	}
 }
 
 void L() {
-	OneStep(LR, 0);
-	delay(STEP_WAIT);
+	int i;
+	for (i = 0; i < ONE_TURN_AMOUNT; i++) {
+		OneStep(LR, 0);
+		delay(STEP_WAIT);
+	}
 }
 
 void R() {
-	OneStep(LR, 1);
-	delay(STEP_WAIT);
+	int i;
+	for (i = 0; i < ONE_TURN_AMOUNT; i++) {
+		OneStep(LR, 1);
+		delay(STEP_WAIT);
+	}
 }
 ////////////////

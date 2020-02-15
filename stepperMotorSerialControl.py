@@ -4,11 +4,14 @@ import struct
 
 #team written module
 import LineAlg as lineAlg
+import resizeImage as resizeImage
 
 currX = 0
 currY = 0
 
-def drawLine( nextX, nextY):
+resizeImage.resize("test.jpeg")
+
+def drawLine(nextX, nextY):
 	global currX
 	global currY
 	instructions = lineAlg.drawLine(currX, currY, nextX, nextY)
@@ -28,18 +31,22 @@ def drawLine( nextX, nextY):
 		if (instruct == 3):
 			chrPass = '3'
 		serialData.write(str(chrPass).encode())
-		time.sleep(.05)
+		time.sleep(0.09)
 		print(chrPass)
 		#serialData.write(str.encode(chrInterp))
 		#serialData.write(struct.pack(">ii",instruct,1));
 
 
 
-serialData = serial.Serial('/dev/tty.usbmodem1421', baudrate=9600)
+serialData = serial.Serial('COM7', baudrate=9600)
 time.sleep(2) # wait for intialize
 
-
-drawLine(	50,	0);
-drawLine(	0,	0);
+print("---" , str(currX) + "," + str(currY))
+drawLine(5,0)
+print("---" , str(currX) + "," + str(currY))
+drawLine(5,5)
+print("---" , str(currX) + "," + str(currY))
+drawLine(0,0)
+print("---" , str(currX) + "," + str(currY))
 
 
