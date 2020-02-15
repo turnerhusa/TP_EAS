@@ -5,6 +5,10 @@ import struct
 #team written module
 import LineAlg as lineAlg
 
+def drawLine(nextX, nextY):
+	instructions = lineAlg.drawLine(currX, currY, nextX, nextY)
+	for instruct in instructions:
+		serialData.write(struct.pack(">B",instruct));
 
 currX = 0;
 currY = 0;
@@ -19,7 +23,3 @@ drawLine(	0,	50);
 drawLine(	0,	0);
 
 
-def drawLine(nextX, nextY):
-	instructions = lineAlg.drawLine(currX, currY, nextX, nextY)
-	for instruct in instructions:
-		serialData.write(struct.pack(">B",instruct));

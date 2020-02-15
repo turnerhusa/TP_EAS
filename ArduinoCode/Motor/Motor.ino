@@ -98,7 +98,7 @@ int rear(struct Queue* queue)
 
 ////////////////////////////////
 
-struct Queue* instructionQueue
+struct Queue* instructionQueue;
 
 void setup() {
 
@@ -235,26 +235,21 @@ void OneStep(motor * m, bool dir) {
 // Direction Functions //
 void U() {
 	OneStep(UD, FORWARD);
-	curr_coords[Y]++;
 	delay(STEP_WAIT);
 }
 
 void D() {
 	OneStep(UD, REVERSE);
-	curr_coords[Y]--;
 	delay(STEP_WAIT);
 }
 
 void L() {
 	OneStep(LR, REVERSE);
-	curr_coords[X]--;
 	delay(STEP_WAIT);
 }
 
 void R() {
 	OneStep(LR, FORWARD);
-	curr_coords[X]++;
 	delay(STEP_WAIT);
 }
 ////////////////
-
