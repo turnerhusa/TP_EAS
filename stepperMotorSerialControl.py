@@ -41,12 +41,18 @@ def drawLine(nextX, nextY):
 serialData = serial.Serial('COM7', baudrate=9600)
 time.sleep(2) # wait for intialize
 
-print("---" , str(currX) + "," + str(currY))
-drawLine(5,0)
-print("---" , str(currX) + "," + str(currY))
-drawLine(5,5)
-print("---" , str(currX) + "," + str(currY))
-drawLine(0,0)
-print("---" , str(currX) + "," + str(currY))
+
+def testLine(x, y):
+	if currY == 0 and currX == 0:
+		print("---" , str(currX) + "," + str(currY))
+
+	drawLine(x,y)
+	print("---" , str(currX) + "," + str(currY))
 
 
+
+testLine(500,1000)
+print("done")
+# testLine(50,50)
+# testLine(0,50)
+# testLine(0,0)
