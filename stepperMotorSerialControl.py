@@ -44,7 +44,7 @@ def drawLine(nextX, nextY):
 		#serialData.write(struct.pack(">ii",instruct,1));
 
 
-<<<<<<< HEAD
+
 # print("---" , str(currX) + "," + str(currY))
 # drawLine(5,0)
 # print("---" , str(currX) + "," + str(currY))
@@ -52,12 +52,6 @@ def drawLine(nextX, nextY):
 # print("---" , str(currX) + "," + str(currY))
 # drawLine(0,0)
 # print("---" , str(currX) + "," + str(currY))
-=======
-
-serialData = serial.Serial('COM7', baudrate=9600)
-time.sleep(2) # wait for intialize
-
->>>>>>> 1446631de1edf52b9d7d1c6228e6cac9645c1d16
 
 def testLine(x, y):
 	if currY == 0 and currX == 0:
@@ -65,11 +59,3 @@ def testLine(x, y):
 
 	drawLine(x,y)
 	print("---" , str(currX) + "," + str(currY))
-
-
-
-testLine(500,1000)
-print("done")
-# testLine(50,50)
-# testLine(0,50)
-# testLine(0,0)
