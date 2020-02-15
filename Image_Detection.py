@@ -29,7 +29,7 @@ edges = skimage.feature.canny(
     high_threshold=high_threshold,
 )
 
-print(edges)
+# print(edges)
 
 cv2.imwrite(edges, 'test-output.jpg', params=(cv2.IMWRITE_JPEG_QUALITY, 0));
 
