@@ -31,7 +31,8 @@ edges = skimage.feature.canny(
     high_threshold=high_threshold,
 )
 
-EdgeProcessor.processEdges(edges)
+shapes = EdgeProcessor.processEdges(edges)
+print(shapes)
 
 #displaying data
 fig, ax = plt.subplots(ncols=2, sharex=True, sharey=True,
