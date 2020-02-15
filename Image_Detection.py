@@ -36,3 +36,9 @@ cv2.imwrite(edges, 'test-output.jpg', params=(cv2.IMWRITE_JPEG_QUALITY, 0));
 #display edges
 # viewer = skimage.viewer.ImageViewer(edges)
 # viewer.show()
+
+# TODO use this to save the file for processing 
+# save binary image; first find beginning of file extension
+# dot = filename.index(".")
+# binary_file_name = filename[:dot] + "-binary" + filename[dot:]
+# skimage.io.imsave(fname=binary_file_name, arr=skimage.img_as_ubyte(binary))
