@@ -6,7 +6,7 @@ struct motor { int pin1, pin2, pin3, pin4; } typedef motor;
 struct motor * UD, LR; 		// vertical and horizontal motor controllers
 int switchPin 		= 7;	// keep track of switch pin number
 int potPin 			= 0;	// keep track of pot pin number 
-int curr_coords [] 	= {0,0}	// keeps track of etchasketch current point, starts at origin in bottom left
+int curr_coords [] 	= {0,0};// keeps track of etchasketch current point, starts at origin in bottom left
 int X 				= 0;	// for use with curr_coords to make things less confusing
 int Y 				= 1;	//
 boolean REVERSE 	= FALSE;// for use with U/D/L/R to make things easier
