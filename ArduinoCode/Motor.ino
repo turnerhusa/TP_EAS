@@ -1,30 +1,16 @@
-/*
-Adafruit Arduino - Lesson 15. Bi-directional Motor
-*/
+/* Adafruit Arduino - Lesson 15. Bi-directional Motor */
 
 #include <math.h>
 
-// temporary //
-int enablePin = 11;
-int in1Pin = 10;
-int in2Pin = 9;
-///////////
-
-int switchPin = 7;
-int potPin = 0;
-boolean REVERSE = FALSE, FORWARD = TRUE;
-struct motor * UD, LR;
-int curr_coords [] = {0,0}
-int X = 0, Y = 1;
-
-struct motor {
-
-	int pin1;
-	int pin2;
-	int pin3;
-	int pin4;
-
-} typedef motor;
+struct motor { int pin1, pin2, pin3, pin4; } typedef motor; 
+struct motor * UD, LR; 		// vertical and horizontal motor controllers
+int switchPin 		= 7;	// keep track of switch pin number
+int potPin 			= 0;	// keep track of pot pin number 
+int curr_coords [] 	= {0,0}	// keeps track of etchasketch current point, starts at origin in bottom left
+int X 				= 0;	// for use with curr_coords to make things less confusing
+int Y 				= 1;	//
+boolean REVERSE 	= FALSE;// for use with U/D/L/R to make things easier
+boolean FORWARD 	= TRUE;	//
 
 void setup() {
 
@@ -58,70 +44,6 @@ void loop() {
 	}
 
 }
-
-void drawLineFromCurrCoords(int x, int y) {
-
-	// get distance of new coords from current 
-	int dx = x - curr_coords[X];
-	int dy = y - curr_coords[Y];
-
-	// figure out which direction we are moving in from current position
-	void (*UDdirec)();
-	void (*LRdirec)();
-
-	if (dx >= 0) { LRdirec = &R; } 
-	else 		 { LRdirec = &L; }
-
-	if (dy >= 0) { UDdirec = &U; }
-	else 		 { UDdirec = &D; }
-
-	while (!(curr_coords[X] == x && curr_coords[Y] == y)) {
-
-		dx = abs(x - curr_coords[X]);
-		dy = abs(y - curr_coords[Y]);
-		int p = 2 * dy - dx;
-
-		if      (dx == 0) { *UDdirec(); } // if nowhere else to go sideways
-		else if (dy == 0) { *LRdirec(); } // if nowhere else to go vertically
-		else { // Bresenham Line-Drawing Algorithm
-
-			if (p < 0) {
-				*LRdirec();
-				p = p + 2 * dy;
-			} else {
-				*LRdirec();
-				*UDdirec();
-				p = p + 2 * (dy - dx);
-			}
-
-		}
-
-	}
-
-}
-
-
-// directions
-void U() {
-  OneStep(UD, FORWARD);
-  curr_coords[Y]++;
-}
-
-void D() {
-  OneStep(UD, REVERSE);
-  curr_coords[Y]--;
-}
-
-void L() {
-  OneStep(LR, REVERSE);
-  curr_coords[X]--;
-}
-
-void R() {
-  OneStep(LR, FORWARD);
-  curr_coords[X]++;
-}
-//
 
 // rotates motor by "one step"
 void OneStep(motor * m, bool dir) {
@@ -193,5 +115,69 @@ void OneStep(motor * m, bool dir) {
   if (step_number > 3) {
     step_number = 0;
   }
+
+}
+
+// directions //
+void U() {
+  OneStep(UD, FORWARD);
+  curr_coords[Y]++;
+}
+
+void D() {
+  OneStep(UD, REVERSE);
+  curr_coords[Y]--;
+}
+
+void L() {
+  OneStep(LR, REVERSE);
+  curr_coords[X]--;
+}
+
+void R() {
+  OneStep(LR, FORWARD);
+  curr_coords[X]++;
+}
+////////////////
+
+
+void drawLineFromCurrCoords(int x, int y) {
+
+	// get distance of new coords from current 
+	int dx = x - curr_coords[X];
+	int dy = y - curr_coords[Y];
+
+	// figure out which direction we are moving in from current position
+	void (*UDdirec)();
+	void (*LRdirec)();
+
+	if (dx >= 0) { LRdirec = &R; } 
+	else 		 { LRdirec = &L; }
+
+	if (dy >= 0) { UDdirec = &U; }
+	else 		 { UDdirec = &D; }
+
+	while (!(curr_coords[X] == x && curr_coords[Y] == y)) {
+
+		dx = abs(x - curr_coords[X]);
+		dy = abs(y - curr_coords[Y]);
+		int p = 2 * dy - dx;
+
+		if      (dx == 0) { *UDdirec(); } // if nowhere else to go sideways
+		else if (dy == 0) { *LRdirec(); } // if nowhere else to go vertically
+		else { // Bresenham Line-Drawing Algorithm
+
+			if (p < 0) {
+				*LRdirec();
+				p = p + 2 * dy;
+			} else {
+				*LRdirec();
+				*UDdirec();
+				p = p + 2 * (dy - dx);
+			}
+
+		}
+
+	}
 
 }
