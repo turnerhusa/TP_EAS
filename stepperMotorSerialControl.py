@@ -9,10 +9,10 @@ import resizeImage as resizeImage
 currX = 0
 currY = 0
 
-test = True
+test = False
 
 if (not test):
-	serialData = serial.Serial('/dev/tty.usbmodem1421', baudrate=9600)
+	serialData = serial.Serial('COM7', baudrate=9600)
 time.sleep(2) # wait for intialize
 
 # resizeImage.resize("test.jpeg")
@@ -23,6 +23,7 @@ def drawLine(nextX, nextY):
 	instructions = lineAlg.drawLine(currX, currY, nextX, nextY)
 	currX = nextX
 	currY = nextY
+	print("Reaching alg")
 	for instruct in instructions:
 
 		#str_pass = b''
@@ -36,6 +37,7 @@ def drawLine(nextX, nextY):
 			chrPass = '2'
 		if (instruct == 3):
 			chrPass = '3'
+		print(chrPass)
 		if (not test):
 			serialData.write(str(chrPass).encode())
 		time.sleep(0.09)

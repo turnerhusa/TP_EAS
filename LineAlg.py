@@ -50,6 +50,8 @@ def drawLine(curr_x, curr_y, x, y):
 
   instructions = []
 
+  
+
   dx = x - curr_x
   dy = y - curr_y
 
