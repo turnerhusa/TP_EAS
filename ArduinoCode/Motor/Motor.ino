@@ -16,6 +16,11 @@ int FORWARD = 0;
 
 int incoming[2];
 
+// Arduino joystick pin numbers / enable
+const int Y_pin = A0; // analog pin connected to Y output
+const int X_pin = A1; // analog pin connected to X output
+const boolean joystick_enabled = 1;
+
 // METHOD DECLARATIONS //
 
 void U();
@@ -161,11 +166,82 @@ void showNewData() {
   }
 }
 
+void joystick() {
+
+  int curX = analogRead(X_pin);
+  int curY = analogRead(Y_pin);
+
+
+    if (curX < 508 -30){
+      U();
+    }
+
+    if (curY < 517 - 30){
+      L();
+    }
+
+    if (curX > 508 + 30){
+      D();
+    }
+
+    if (curY > 517 + 30){
+      R();
+    }
+  
+
+//  if ((curX < 490 || curX > 520) || (curY > 545 || curY < 500)) { // Deafult 0,0 position values
+////    Serial.print("X-axis: ");
+////    Serial.print(curX);
+////    Serial.print("\n");
+////    Serial.print("Y-axis: ");
+////    Serial.println(curY);
+////    Serial.print("\n\n");
+//    delay(200);
+//
+//    if (curY >= curX) {
+//
+//      if (curY > 517) {
+//        U();
+//        Serial.print("U");
+//      } else {
+//        D();
+//        Serial.print("D");
+//      }
+//
+//      Serial.print(" ");
+//      Serial.print(curY);
+//
+//    } else {
+//
+//      if (curX > 510) {
+//        R();
+//        Serial.print("L");
+//      } else {
+//        L();
+//        Serial.print("R");
+//      }
+//
+//      Serial.print(" ");
+//      Serial.print(curX);
+//
+//    }
+//
+//    Serial.print("\n");
+//
+//  }
+
+}
+
+
+
 void loop() {
-  
-  recvOneChar();
-  showNewData();
-  
+
+  if (!joystick_enabled) {
+    recvOneChar();
+    showNewData();
+  } else {
+     joystick();
+  }  
     
 }
 
