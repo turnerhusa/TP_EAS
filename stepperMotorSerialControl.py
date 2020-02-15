@@ -9,7 +9,7 @@ import resizeImage as resizeImage
 currX = 0
 currY = 0
 
-resizeImage.resize("test.jpeg")
+# resizeImage.resize("test.jpeg")
 
 def drawLine(nextX, nextY):
 	global currX
