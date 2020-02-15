@@ -25,6 +25,8 @@ high_threshold = float(sys.argv[4])
 resizer.resize(filename)
 filename = 'resized-'+filename
 
+drawToSerial = False
+
 #load and display original image as grayscale
 image = skimage.io.imread(fname=filename, as_gray=True)
 
@@ -86,10 +88,10 @@ ax3.imshow(edges, cmap=plt.cm.gray)
 
 plt.show()
 
-
-for n,contour in enumerate(contours):
-	for coord in contour:
-		serialControl.drawLine(coord[0], coord[1])
+if (drawToSerial):
+	for n,contour in enumerate(contours):
+		for coord in contour:
+			serialControl.drawLine(coord[0], coord[1])
 
 
 # fig, ax = plt.subplots(ncols=2, sharex=True, sharey=True, figsize=(8, 4))
