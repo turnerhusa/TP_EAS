@@ -9,6 +9,12 @@ import resizeImage as resizeImage
 currX = 0
 currY = 0
 
+test = True
+
+if (not test):
+	serialData = serial.Serial('/dev/tty.usbmodem1421', baudrate=9600)
+time.sleep(2) # wait for intialize
+
 # resizeImage.resize("test.jpeg")
 
 def drawLine(nextX, nextY):
@@ -30,23 +36,20 @@ def drawLine(nextX, nextY):
 			chrPass = '2'
 		if (instruct == 3):
 			chrPass = '3'
-		serialData.write(str(chrPass).encode())
+		if (not test):
+			serialData.write(str(chrPass).encode())
 		time.sleep(0.09)
 		print(chrPass)
 		#serialData.write(str.encode(chrInterp))
 		#serialData.write(struct.pack(">ii",instruct,1));
 
 
-
-serialData = serial.Serial('COM7', baudrate=9600)
-time.sleep(2) # wait for intialize
-
-print("---" , str(currX) + "," + str(currY))
-drawLine(5,0)
-print("---" , str(currX) + "," + str(currY))
-drawLine(5,5)
-print("---" , str(currX) + "," + str(currY))
-drawLine(0,0)
-print("---" , str(currX) + "," + str(currY))
+# print("---" , str(currX) + "," + str(currY))
+# drawLine(5,0)
+# print("---" , str(currX) + "," + str(currY))
+# drawLine(5,5)
+# print("---" , str(currX) + "," + str(currY))
+# drawLine(0,0)
+# print("---" , str(currX) + "," + str(currY))
 
 
