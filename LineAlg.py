@@ -82,3 +82,6 @@ def drawLine(curr_x, curr_y, x, y):
       x += inc_y
       p = p + 2 * (dy - dx)
 
+
+  return instructions
+
