@@ -1,3 +1,5 @@
+## TODO add comments to code, beef up the readme, add gifs of it working
+
 # TP_EAS
 
 Algorithms Implemented:
