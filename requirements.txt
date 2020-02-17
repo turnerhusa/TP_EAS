@@ -4,4 +4,4 @@ scikit-image==0.16.1
 
 cython
 
-
+bresenham
