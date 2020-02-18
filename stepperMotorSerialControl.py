@@ -1,8 +1,11 @@
 import serial
 import time
 import struct
+import warnings
+import serial
+import serial.tools.list_ports
 
-#team written module
+#team written modules
 import LineAlg as lineAlg
 import resizeImage as resizeImage
 
@@ -12,10 +15,19 @@ currY = 0
 test = False
 
 if (not test):
-	serialData = serial.Serial('COM7', baudrate=9600)
-time.sleep(2) # wait for intialize
+	
+	arduino_ports = [ # automate finding port name so we dont have to change it manually between users
+	    p.device
+	    for p in serial.tools.list_ports.comports()
+	    if 'Arduino' in p.description  # may need tweaking to match new arduinos
+	]
+	
+	if not arduino_ports:
+	    raise IOError("No Arduino found")
 
-# resizeImage.resize("test.jpeg")
+	serialData = serial.Serial(arduino_ports[0], baudrate=9600)
+	
+time.sleep(2) # wait for intialize
 
 def drawLine(nextX, nextY):
 	global currX
@@ -23,7 +35,6 @@ def drawLine(nextX, nextY):
 	instructions = lineAlg.drawLine(currX, currY, nextX, nextY)
 	currX = nextX
 	currY = nextY
-	print("Reaching alg")
 	for instruct in instructions:
 
 		#str_pass = b''
@@ -44,16 +55,6 @@ def drawLine(nextX, nextY):
 		print(chrPass)
 		#serialData.write(str.encode(chrInterp))
 		#serialData.write(struct.pack(">ii",instruct,1));
-
-
-
-# print("---" , str(currX) + "," + str(currY))
-# drawLine(5,0)
-# print("---" , str(currX) + "," + str(currY))
-# drawLine(5,5)
-# print("---" , str(currX) + "," + str(currY))
-# drawLine(0,0)
-# print("---" , str(currX) + "," + str(currY))
 
 def testLine(x, y):
 	if currY == 0 and currX == 0:
